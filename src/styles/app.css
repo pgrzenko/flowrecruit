@@ -1,0 +1,145 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import './tokens.css';
+
+/* --- GLOBAL RESET & LAYOUT --- */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--scene-bg);
+  color: var(--ui-ink);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- GRID LAYOUT (App.tsx) --- */
+.app {
+  display: grid;
+  grid-template-columns: 300px 1fr 380px;
+  grid-template-rows: 56px 1fr;
+  grid-template-areas:
+    "top top top"
+    "left scene right";
+  height: 100vh;
+  width: 100%;
+}
+
+/* --- BASIC UI TOKENS --- */
+.border-ui-border {
+  border-color: var(--ui-border);
+}
+.bg-ui-bg {
+  background-color: var(--ui-bg);
+}
+.bg-ui-bg-2 {
+  background-color: var(--ui-bg-2);
+}
+.text-ui-ink {
+  color: var(--ui-ink);
+}
+.text-ui-muted {
+  color: var(--ui-muted);
+}
+
+/* --- TOPBAR --- */
+header {
+  background-color: var(--ui-bg);
+  color: var(--ui-ink);
+  border-bottom: 1px solid var(--ui-border);
+}
+header h1 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  margin: 0;
+}
+
+/* --- BUTTONS / PILLS --- */
+button,
+.btn {
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+button:hover,
+.btn:hover {
+  border-color: var(--ui-accent);
+  color: var(--ui-ink);
+}
+
+/* --- LEFT PANEL --- */
+aside {
+  background-color: var(--ui-bg);
+  border-right: 1px solid var(--ui-border);
+  overflow-y: auto;
+}
+aside h3 {
+  color: var(--ui-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+/* --- AI PANEL --- */
+.grid-area-right {
+  background-color: var(--ui-bg);
+  border-left: 1px solid var(--ui-border);
+}
+.grid-area-right h3 {
+  margin-top: 0;
+  font-weight: 600;
+}
+
+/* --- MODALS --- */
+.modal__window {
+  border-color: var(--ui-accent);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  background-color: var(--ui-bg);
+}
+.mtab.active {
+  border-color: var(--ui-accent);
+  background-color: #1a2b47;
+  color: var(--ui-ink);
+}
+
+/* --- SCENE BACKGROUND (SVG STAGE) --- */
+.bg-scene-bg {
+  background-color: var(--scene-bg);
+}
+
+/* --- REMOVE DUPLICATES (Hex-specific moved to hex.css) ---
+   ❌ .hex, .edge, .face, .label, .s-dot
+   przeniesione do src/styles/hex.css
+------------------------------------------------------------ */
+
+/* --- SCROLLBARS (esthetic) --- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ui-bg-2);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--ui-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--ui-accent);
+}

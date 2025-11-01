@@ -1,0 +1,135 @@
+/* Style dla modala rekrutacyjnego, przeniesione z flower.html */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex; /* Używamy flex do centrowania */
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 12, 18, .55);
+  backdrop-filter: blur(2px);
+}
+
+.modal__window {
+  position: relative; /* z-index będzie działać */
+  z-index: 10;
+  width: 100%;
+  max-width: 1200px;
+  max-height: 90vh; /* Ograniczenie wysokości */
+  margin: auto;
+  background: var(--ui-bg);
+  border: 1px solid var(--ui-accent);
+  border-radius: 14px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .6);
+  color: var(--ui-ink);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Zapobiega "wylewaniu się" contentu */
+}
+
+.modal__topbar {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.modal__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal__row .field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.modal__row .field.grow {
+  flex: 1;
+}
+.modal__row .field label {
+  font-size: 12px;
+  color: var(--ui-muted);
+}
+.modal__row .field input,
+.modal__row .field select {
+  background: var(--ui-bg-2);
+  border: 1px solid var(--ui-border);
+  color: var(--ui-ink);
+  border-radius: 10px;
+  padding: 10px 12px;
+  min-width: 160px;
+}
+
+.btn-close {
+  margin-left: auto;
+  background: var(--ui-bg-2);
+  border: 1px solid rgba(255, 255, 255, .2);
+  color: #DAECF6;
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+.btn-close:hover {
+  border-color: var(--ui-accent);
+}
+
+.modal__tabs {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  flex-shrink: 0; /* Zapobiega kurczeniu się zakładek */
+}
+
+.mtab {
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--ui-border);
+  background: var(--ui-bg-2);
+  color: #9dc2d6;
+  cursor: pointer;
+  font-size: 14px;
+}
+.mtab:hover {
+  border-color: var(--ui-accent);
+  color: var(--ui-ink);
+}
+.mtab.active {
+  color: var(--ui-ink);
+  border-color: var(--ui-accent);
+  background-color: #1a2b47; /* Lekkie podświetlenie aktywnej */
+}
+
+.modal__content {
+  padding: 16px;
+  overflow-y: auto; /* Pozwala na scrollowanie treści modala */
+  flex: 1; /* Rozciąga się, aby wypełnić dostępne miejsce */
+}
+
+/* Przykładowe style dla paneli (mpane) */
+.mpane {
+  display: grid;
+  gap: 16px;
+}
+.mpane .metric {
+  background: var(--ui-bg-2);
+  border: 1px solid var(--ui-border);
+  border-radius: 12px;
+  padding: 14px;
+}
+.mpane .metric b {
+  display: block;
+  font-size: 22px;
+}
+.mpane .muted {
+  color: #93b4c7;
+  opacity: .85;
+}

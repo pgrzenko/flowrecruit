@@ -1,0 +1,27 @@
+/* Zmigrowane zmienne z :root w flower.html
+  Są one używane przez tailwind.config.js
+*/
+:root {
+  /* UI palette */
+  --ui-bg: #0E1726;
+  --ui-bg-2: #101a2b;
+  --ui-ink: #E8F1F9;
+  --ui-muted: #9DB7C8;
+  --ui-border: rgba(255, 255, 255, 0.12);
+  --ui-accent: #22D3EE;
+
+  /* Scene */
+  --scene-bg: #0B1321;
+  --hex-deep: #0F172A;
+  --hex-cyan-1: #67E8F9;
+  --hex-cyan-2: #22D3EE;
+
+  /* Labels */
+  --label-on-cyan: #001018;
+  --label-on-deep: #6EE7F9;
+
+  /* Status colors */
+  --status-red: #FF2040;
+  --status-orange: #FFA424;
+  --status-green: #3DF38A;
+}
