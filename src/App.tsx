@@ -1,9 +1,9 @@
-import  React from 'react';
+// src/App.tsx
 import { Stage } from './components/hex/Stage';
-import { Topbar } from '/src/components/panes/Topbar.tsx';
-import { LeftPane } from './components/panes/LeftPane';
-import { AIPanel } from '@/components/panes/AIPanel';
-import { RecruitModal } from './components/modal/RecruitModal';
+import { Topbar } from './Topbar';
+import { LeftPane } from './LeftPane';
+import { AIPanel } from './AIPanel';
+import { RecruitModal } from './RecruitModal';
 
 /**
  * Główny komponent aplikacji.
@@ -24,21 +24,22 @@ function App() {
             '"left scene right"',
         }}
       >
-        {/* Definiujemy style inline dla grid-area, aby uniknąć konieczności
-            dodawania kolejnego pliku CSS dla layoutu. */}
-        
+        {/* top bar */}
         <div style={{ gridArea: 'top' }}>
           <Topbar />
         </div>
-        
+
+        {/* left pane */}
         <div style={{ gridArea: 'left' }}>
           <LeftPane />
         </div>
-        
+
+        {/* main stage */}
         <main style={{ gridArea: 'scene', position: 'relative' }}>
           <Stage />
         </main>
-        
+
+        {/* right pane */}
         <div style={{ gridArea: 'right' }}>
           <AIPanel />
         </div>

@@ -17,7 +17,6 @@ const TABS: { id: ModalTab; label: string }[] = [
  * Zastępuje #hexModal i jest kontrolowany przez Zustand.
  */
 export const RecruitModal: React.FC = () => {
-  const { isOpen, activeHexId } = useHexStore((s) => s.modalState);
   const getActiveHexData = useHexStore((s) => s.getActiveHexData);
   const closeRecruitModal = useHexStore((s) => s.closeRecruitModal);
 

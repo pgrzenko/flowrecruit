@@ -1,14 +1,13 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import path from 'path' // Upewnij się, że masz ten import
+import path from 'path'
 
-// https://vitejs.dev/config/
 export default defineConfig({
+  base: '/flowrecruit/',
   plugins: [react()],
   resolve: {
     alias: {
-      // To jest linijka, której prawdopodobnie brakuje
-      "@": path.resolve(__dirname, "./src"),
+      '@': path.resolve(__dirname, './src'),
     },
   },
 })
