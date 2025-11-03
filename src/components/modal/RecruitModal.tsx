@@ -13,22 +13,24 @@ const TABS: { id: ModalTab; label: string }[] = [
 ];
 
 /**
- * Główny modal rekrutacyjny.
- * Zastępuje #hexModal i jest kontrolowany przez Zustand.
+ * Główny modal rekrutacyjny kontrolowany przez Zustand.
  */
 export const RecruitModal: React.FC = () => {
+  // Zustand selectors
+  const isOpen = useHexStore((s) => s.modalState.isOpen);
   const getActiveHexData = useHexStore((s) => s.getActiveHexData);
   const closeRecruitModal = useHexStore((s) => s.closeRecruitModal);
+  const updatePayload = useHexStore((s) => s.updatePayload); // musi istnieć w store
 
   const [activeTab, setActiveTab] = useState<ModalTab>('overview');
-  
-  const hexData = getActiveHexData();
+
+  const hexData = getActiveHexData(); // { id, payload } | null
 
   if (!isOpen || !hexData) {
     return null;
   }
 
-  const { payload } = hexData;
+  const { id: hexId, payload } = hexData;
 
   return (
     <div className="modal" id="recruitModal">
@@ -37,7 +39,6 @@ export const RecruitModal: React.FC = () => {
 
       {/* Okno Modala */}
       <div className="modal__window" role="dialog" aria-modal="true">
-        
         {/* Topbar Modala */}
         <div className="modal__topbar">
           <div className="modal__row">
@@ -47,17 +48,22 @@ export const RecruitModal: React.FC = () => {
                 type="text"
                 placeholder="Nazwa stanowiska..."
                 defaultValue={payload.title}
-                // onChange={(e) => updatePayload(hexData.id, { title: e.target.value })}
+                onChange={(e) => updatePayload(hexId, { title: e.target.value })}
               />
             </div>
+
             <div className="field">
               <label>Status:</label>
-              <select defaultValue={payload.status}>
-                <option>To Do</option>
-                <option>In Progress</option>
-                <option>Done</option>
+              <select
+                defaultValue={payload.status}
+                onChange={(e) => updatePayload(hexId, { status: e.target.value })}
+              >
+                <option value="To Do">To Do</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Done">Done</option>
               </select>
             </div>
+
             <button
               aria-label="Close"
               className="btn-close"
@@ -90,30 +96,47 @@ export const RecruitModal: React.FC = () => {
               <textarea
                 placeholder="Wklej opis stanowiska (JD)..."
                 className="w-full min-h-[300px] bg-ui-bg-2 text-ui-ink border border-ui-border rounded-xl p-2.5"
-              ></textarea>
+                onChange={(e) => updatePayload(hexId, { description: e.target.value as any })}
+                defaultValue={(payload as any)?.description ?? ''}
+              />
             </div>
           )}
+
           {activeTab === 'kanban' && (
             <div className="mpane" data-pane="m-kanban">
               <h3>CV Match</h3>
               <p className="muted">Tu będzie analiza dopasowania CV (PDF biznesowy).</p>
             </div>
           )}
+
           {activeTab === 'notes' && (
             <div className="mpane" data-pane="m-notes">
               <h3>Interview Prep</h3>
               <p className="muted">Tu będą notatki do rozmowy (PDF biznesowy).</p>
             </div>
           )}
-           {activeTab === 'links' && (
+
+          {activeTab === 'links' && (
             <div className="mpane" data-pane="m-links">
               <h3>Tracking</h3>
               <p className="muted">Tu będzie śledzenie statusu aplikacji (PDF biznesowy).</p>
             </div>
           )}
-          {/* Pozostałe zakładki jako placeholder */}
-        </div>
 
+          {activeTab === 'attach' && (
+            <div className="mpane" data-pane="m-attach">
+              <h3>Attachments</h3>
+              <p className="muted">Pliki, zrzuty, załączniki do roli.</p>
+            </div>
+          )}
+
+          {activeTab === 'assistant' && (
+            <div className="mpane" data-pane="m-assistant">
+              <h3>Assistant</h3>
+              <p className="muted">Warstwa AI (chat, akcje).</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
