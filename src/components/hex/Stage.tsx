@@ -1,4 +1,5 @@
-import React, { useMemo, useRef, useLayoutEffect, useState } from 'react';
+// src/components/hex/Stage.tsx
+import { useMemo, useRef, useLayoutEffect, useState } from 'react';
 import { useHexStore } from '@/state/useHexStore';
 import { Hex } from './Hex';
 import {
@@ -7,10 +8,7 @@ import {
   getRingAxialCoords,
 } from '@/lib/geometry';
 
-/**
- * Prosty hook do mierzenia wymiarów kontenera.
- * Przeniesiony z pierwotnego HexGrid.tsx.
- */
+/** Pomiar rozmiaru kontenera (bez ryzyka null). */
 function useBounds<T extends HTMLElement>() {
   const ref = useRef<T | null>(null);
   const [bounds, setBounds] = useState({ width: 0, height: 0 });
@@ -31,64 +29,74 @@ function useBounds<T extends HTMLElement>() {
   return { ref, bounds };
 }
 
-/**
- * Główny komponent sceny, który renderuje siatkę heksagonów SVG.
- */
+type HexLayout = {
+  id: number | string;
+  cx: number;
+  cy: number;
+  size: number;
+  ring: number;
+  payload: Record<string, unknown>;
+};
+
+type LayoutData =
+  | { viewBox: string; hexLayouts: HexLayout[] }
+  | null;
+
+/** Główna scena SVG z siatką heksów. */
 export const Stage: React.FC = () => {
   const { ref, bounds } = useBounds<HTMLDivElement>();
-  
-  // Pobranie danych i akcji ze store'u
+
+  // Store
   const hexes = useHexStore((s) => s.hexes);
   const payloads = useHexStore((s) => s.payloads);
   const setActiveHexId = useHexStore((s) => s.setActiveHexId);
   const openRecruitModal = useHexStore((s) => s.openRecruitModal);
 
-  /**
-   * Oblicza i memoizuje pozycje oraz rozmiary wszystkich heksów.
-   * Uruchamia się ponownie tylko, gdy zmienią się wymiary kontenera.
-   */
-  const layoutData = useMemo(() => {
+  /** Obliczenie pozycji heksów dla aktualnych wymiarów sceny. */
+  const layoutData: LayoutData = useMemo(() => {
     const { width, height } = bounds;
-    if (width === 0 || height === 0) return null;
+    if (!width || !height) return null;
 
     const layout = calculateLayout(width, height);
-    const axialCoordsByRing: Record<number, [number, number][]> = {
+
+    const rings = {
       0: getRingAxialCoords(0),
       1: getRingAxialCoords(1),
       2: getRingAxialCoords(2),
       3: getRingAxialCoords(3),
-    };
+    } as const;
 
-    let hexRingCounters: Record<number, number> = { 0: 0, 1: 0, 2: 0, 3: 0 };
+    const ringCounters: Record<number, number> = { 0: 0, 1: 0, 2: 0, 3: 0 };
 
-    const hexLayouts = hexes.map((hex) => {
-      const ring = hex.ring;
-      const index = hexRingCounters[ring]++;
-      const axial = axialCoordsByRing[ring][index];
+    const hexLayouts = hexes
+      .map<HexLayout | null>((hex) => {
+        const ring = hex.ring as 0 | 1 | 2 | 3;
+        const index = ringCounters[ring]++;
+        const axial = rings[ring][index];
 
-      if (!axial) {
-        console.error(`Brak koordynatów dla hex ${hex.id} w pierścieniu ${ring}`);
-        return null;
-      }
-      
-      const [q, r] = axial;
-      const { x: dx, y: dy } = axialToPixel(q, r, layout.size);
-      
-      return {
-        id: hex.id,
-        cx: layout.cx + dx,
-        cy: layout.cy + dy,
-        size: layout.size,
-        ring: hex.ring,
-        payload: payloads[hex.id] || {}, // Zapewnij pusty obiekt, jeśli payloadu brak
-      };
-    }).filter(Boolean); // Usuń nulle, jeśli wystąpił błąd
+        if (!axial) {
+          console.error(`Brak koordynatów dla hex ${hex.id} w pierścieniu ${ring}`);
+          return null;
+        }
+
+        const [q, r] = axial;
+        const { x: dx, y: dy } = axialToPixel(q, r, layout.size);
+
+        return {
+          id: hex.id,
+          cx: layout.cx + dx,
+          cy: layout.cy + dy,
+          size: layout.size,
+          ring,
+          payload: (payloads[hex.id] as Record<string, unknown>) ?? {},
+        };
+      })
+      .filter((h): h is HexLayout => h !== null);
 
     return {
       viewBox: `0 0 ${layout.width} ${layout.height}`,
       hexLayouts,
     };
-
   }, [bounds, hexes, payloads]);
 
   return (
@@ -101,7 +109,7 @@ export const Stage: React.FC = () => {
           viewBox={layoutData.viewBox}
           className="w-full h-full"
         >
-          {/* Definicje gradientów i filtrów z flower.html */}
+          {/* Gradienty + delikatna poświata */}
           <defs>
             <linearGradient id="faceGrad" x1="0" x2="1" y1="0" y2="1">
               <stop offset="0%" stopColor="var(--hex-cyan-1)" />
@@ -117,18 +125,18 @@ export const Stage: React.FC = () => {
               />
             </filter>
           </defs>
-          
-          {/* Główna grupa renderująca heksy */}
+
+          {/* Siatka heksów */}
           <g id="grid" filter="url(#glow)">
-            {layoutData.hexLayouts.map((hex) => (
+            {layoutData.hexLayouts.map((h) => (
               <Hex
-                key={hex.id}
-                id={hex.id}
-                cx={hex.cx}
-                cy={hex.cy}
-                size={hex.size}
-                ring={hex.ring}
-                payload={hex.payload as any} // 'as any' dla uproszczenia, store gwarantuje typ
+                key={h.id}
+                id={h.id}
+                cx={h.cx}
+                cy={h.cy}
+                size={h.size}
+                ring={h.ring}
+                payload={h.payload}
                 onClick={setActiveHexId}
                 onDoubleClick={openRecruitModal}
               />
