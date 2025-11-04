@@ -1,13 +1,14 @@
-// src/App.tsx
-import { Stage } from './components/hex/Stage';
-import { Topbar } from './Topbar';
-import { LeftPane } from './LeftPane';
-import { AIPanel } from './AIPanel';
-import { RecruitModal } from './RecruitModal';
+import React from 'react';
+
+// Używamy aliasu z tsconfig ("@/*": ["src/*"])
+import { Stage } from '@/components/hex/Stage';
+import { Topbar } from '@/components/panes/Topbar';
+import { LeftPane } from '@/components/panes/LeftPane';
+import { AIPanel } from '@/components/panes/AIPanel';
+import { RecruitModal } from '@/components/modal/RecruitModal';
 
 /**
- * Główny komponent aplikacji.
- * Definiuje layout siatki (grid) na wzór flower.html.
+ * Główny komponent aplikacji – layout heksów + panele boczne + modal.
  */
 function App() {
   return (
@@ -15,37 +16,39 @@ function App() {
       <div
         className="app"
         style={{
-          height: '100vh',
           display: 'grid',
-          gridTemplateColumns: '300px 1fr 380px', // left | scene | right
-          gridTemplateRows: '56px 1fr', // top | content
-          gridTemplateAreas:
-            '"top top top"' +
-            '"left scene right"',
+          gridTemplateColumns: '320px 1fr 420px',
+          gridTemplateRows: '56px 1fr',
+          gridTemplateAreas: `
+            "topbar topbar topbar"
+            "left   main   right"
+          `,
+          height: '100vh',
+          overflow: 'hidden',
         }}
       >
-        {/* top bar */}
-        <div style={{ gridArea: 'top' }}>
+        {/* Topbar */}
+        <header style={{ gridArea: 'topbar' }}>
           <Topbar />
-        </div>
+        </header>
 
-        {/* left pane */}
-        <div style={{ gridArea: 'left' }}>
+        {/* Lewy panel */}
+        <aside style={{ gridArea: 'left', minWidth: 0, overflow: 'hidden' }}>
           <LeftPane />
-        </div>
+        </aside>
 
-        {/* main stage */}
-        <main style={{ gridArea: 'scene', position: 'relative' }}>
+        {/* Scena (heksy) */}
+        <main style={{ gridArea: 'main', minWidth: 0, overflow: 'hidden' }}>
           <Stage />
         </main>
 
-        {/* right pane */}
-        <div style={{ gridArea: 'right' }}>
+        {/* Prawy panel (AI) */}
+        <aside style={{ gridArea: 'right', minWidth: 0, overflow: 'hidden' }}>
           <AIPanel />
-        </div>
+        </aside>
       </div>
 
-      {/* Modal renderuje się na wierzchu */}
+      {/* Modal na wierzchu */}
       <RecruitModal />
     </>
   );
