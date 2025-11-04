@@ -42,21 +42,11 @@ body {
 }
 
 /* --- BASIC UI TOKENS --- */
-.border-ui-border {
-  border-color: var(--ui-border);
-}
-.bg-ui-bg {
-  background-color: var(--ui-bg);
-}
-.bg-ui-bg-2 {
-  background-color: var(--ui-bg-2);
-}
-.text-ui-ink {
-  color: var(--ui-ink);
-}
-.text-ui-muted {
-  color: var(--ui-muted);
-}
+.border-ui-border { border-color: var(--ui-border); }
+.bg-ui-bg        { background-color: var(--ui-bg); }
+.bg-ui-bg-2      { background-color: var(--ui-bg-2); }
+.text-ui-ink     { color: var(--ui-ink); }
+.text-ui-muted   { color: var(--ui-muted); }
 
 /* --- TOPBAR --- */
 header {
@@ -110,7 +100,7 @@ aside h3 {
 /* --- MODALS --- */
 .modal__window {
   border-color: var(--ui-accent);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 24px 80px rgba(0,0,0,.6);
   background-color: var(--ui-bg);
 }
 .mtab.active {
@@ -120,26 +110,34 @@ aside h3 {
 }
 
 /* --- SCENE BACKGROUND (SVG STAGE) --- */
-.bg-scene-bg {
-  background-color: var(--scene-bg);
+.bg-scene-bg { background-color: var(--scene-bg); }
+
+/* =========================================================
+   HEX OVERRIDES (P2 kolory + separatory krawędzi)
+   Główne style hexów są w hex.css — tu *wymuszamy* finalny wygląd.
+   ========================================================= */
+
+/* Solid cyan dla P2 i centrum — nic nie nadpisze tego dalej */
+.face.face--cyan {
+  fill: var(--hex-cyan-2) !important;
 }
 
-/* --- REMOVE DUPLICATES (Hex-specific moved to hex.css) ---
-   ❌ .hex, .edge, .face, .label, .s-dot
-   przeniesione do src/styles/hex.css
------------------------------------------------------------- */
+/* „Szwy” w P2 – odcina krawędzie między sąsiadującymi błękitnymi hexami */
+.edge.edge--ring2 {
+  stroke: var(--scene-bg) !important;
+  stroke-width: 4.5 !important;
+}
+
+/* Hover: lekki boost, ale bez przesady */
+.hex:hover .edge {
+  stroke-width: 5 !important;
+}
 
 /* --- SCROLLBARS (esthetic) --- */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--ui-bg-2);
-}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--ui-bg-2); }
 ::-webkit-scrollbar-thumb {
   background-color: var(--ui-border);
   border-radius: 4px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--ui-accent);
-}
+::-webkit-scrollbar-thumb:hover { background-color: var(--ui-accent); }

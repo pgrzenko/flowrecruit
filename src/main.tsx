@@ -1,12 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './app.css'
-import './hex.css'
-import './modal.css' // Import stylów dla modala
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.tsx";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+// Style – trzymajmy spójnie przez alias "@"
+import "@/styles/app.css";
+import "@/styles/hex.css";
+import "@/styles/modal.css";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);
