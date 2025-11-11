@@ -58,5 +58,19 @@ Po uruchomieniu npm run dev, sprawdź następujące funkcje:
    * \[ \] Czy modal wyświetla poprawny tytuł aktywnego heksa?  
    * \[ \] Czy można przełączać zakładki (np. z "Overview (JD)" na "CV Match")?  
    * \[ \] Czy można zamknąć modal przyciskiem "✕"?  
-7. \[ \] **Trwałość Stanu (LocalStorage):**  
+7. \[ \] **Trwałość Stanu (LocalStorage):**
    * \[ \] Czy po wysłaniu wiadomości w panelu AI i odświeżeniu strony (F5) historia czatu dla danego heksa jest nadal widoczna?
+
+## **🛠️ Wskazówki dotyczące pracy z Git**
+
+Jeśli tworzysz lokalną gałąź i chcesz wypchnąć ją pierwszy raz na GitHub, upewnij się, że:
+
+1. Masz co najmniej jeden commit na tej gałęzi (`git commit -m "..."`). Git nie utworzy zdalnej gałęzi dla pustej historii – w takiej sytuacji zobaczysz komunikat `error: src refspec <branch> does not match any`.
+2. Używasz poprawnej nazwy gałęzi zarówno lokalnie, jak i w komendzie push (`git branch` pozwala to szybko zweryfikować).
+3. Pierwsze wypchnięcie wykonujesz z flagą `-u`, aby ustawić śledzenie zdalnego odpowiednika:
+
+   ```bash
+   git push -u origin <twoja_gałąź>
+   ```
+
+Po pomyślnym ustawieniu upstreamu, kolejne wysyłki możesz robić prostym `git push`.
