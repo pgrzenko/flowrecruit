@@ -1,0 +1,20 @@
+# Normalizuj końce linii
+* text=auto eol=lf
+
+# Traktuj obrazy jako binarne
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.svg text
+
+# Zadbaj o czytelne diffy dla kodu
+*.ts  text diff=typescript
+*.tsx text diff=typescript
+*.js  text
+*.jsx text
+*.css text
+*.html text
+*.json text
+*.md  text

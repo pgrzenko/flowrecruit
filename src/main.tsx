@@ -1,8 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+import App from "./App";
 
-// Style – trzymajmy spójnie przez alias "@"
 import "@/styles/app.css";
 import "@/styles/hex.css";
 import "@/styles/modal.css";

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useHexStore } from '@/state/useHexStore';
-import type { Hex, HexPayload, ChatMessage } from '@/types';
+import type { Hex, HexPayload, ChatMessage } from '@/state/types';
 
 /**
  * Prawy panel (AI / Chat). Minimalna, typowana wersja, bez "implicit any".
